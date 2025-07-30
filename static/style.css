@@ -1,8 +1,8 @@
 /* --- Global Settings & "Cyberpunk" Color Palette --- */
 :root {
-    --bg-color: #0d1117; /* Very dark blue-charcoal */
-    --grid-color: rgba(0, 229, 255, 0.1); /* Faint cyan grid lines */
-    --accent-color: #00E5FF; /* Electric Cyan */
+    --bg-color: #0d1117;
+    --grid-color: rgba(0, 229, 255, 0.1);
+    --accent-color: #00E5FF;
     --accent-glow: rgba(0, 229, 255, 0.4);
     --container-bg: rgba(13, 17, 23, 0.8);
     --text-primary: #e6edf3;
@@ -36,26 +36,21 @@ body {
         50px 50px,
         50px 50px;
     animation: moveGridFine 12s linear infinite, moveGrid 15s linear infinite;
-    
-    /* --- KEY FIXES START HERE --- */
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center content horizontally */
-    min-height: 100vh; /* Ensure body takes at least full screen height */
+    align-items: center;
+    min-height: 100vh;
     margin: 0;
-    padding: 40px 20px; /* Add vertical padding for spacing */
-    box-sizing: border-box; /* Crucial for proper layout */
-    overflow-x: hidden; /* Hide horizontal scroll only, allows vertical scroll */
-    /* --- KEY FIXES END HERE --- */
-
+    padding: 40px 20px;
+    box-sizing: border-box;
+    overflow-x: hidden;
     color: var(--text-primary);
 }
 
-
 /* --- Top Section Title --- */
 #top {
-    width: 100%; /* Use full width for responsiveness */
-    max-width: 900px; /* Give the title more space */
+    width: 100%;
+    max-width: 900px;
     text-align: center;
     margin-bottom: 2rem;
 }
@@ -68,7 +63,6 @@ body {
     text-transform: uppercase;
     text-shadow: 0 0 10px var(--accent-glow), 0 0 20px var(--accent-glow);
 }
-
 
 /* --- Main Container --- */
 .container {
@@ -165,16 +159,52 @@ button:hover {
     font-weight: 500;
 }
 
-/* --- Responsive Adjustments --- */
+/*
+=========================================
+--- CAREFUL MOBILE RESPONSIVE FIXES ---
+=========================================
+*/
 @media (max-width: 600px) {
     body {
-        padding: 20px 15px; /* Less padding on mobile */
+        /* More compact padding for small screens */
+        padding: 25px 15px;
+    }
+
+    #top {
+        margin-bottom: 1.5rem; /* Tighter spacing */
     }
 
     #top h1 {
-        font-size: 1.7rem;
+        font-size: 1.8rem; /* Reduced for better fit */
+        letter-spacing: 1px;
     }
+    
     .container {
-        padding: 20px;
+        padding: 20px; /* Reduced padding inside container */
+    }
+
+    h2 {
+        font-size: 20px; /* Reduced subtitle font size */
+    }
+
+    input[type="text"],
+    textarea,
+    .result {
+        font-size: 14px; /* Smaller font for inputs/results */
+    }
+
+    button {
+        font-size: 16px; /* Smaller font for button */
+    }
+}
+
+/* --- Accessibility: Reduces motion for users who prefer it --- */
+@media (prefers-reduced-motion: reduce) {
+    body {
+        animation: none; /* Disables the background animation */
+    }
+    button:hover {
+        transform: none; /* Disables button lift effect */
+        box-shadow: none;
     }
 }
