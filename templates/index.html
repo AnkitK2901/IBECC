@@ -4,41 +4,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://kit.fontawesome.com/477be79e6e.js" crossorigin="anonymous"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>Identity Based ECC</title>
+    
+    <!-- Link to your CSS file in the static folder -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <title>Encrypt & Decrypt App</title>
+    
+    <!-- Font Awesome for Icons -->
+    <script src="https://kit.fontawesome.com/477be79e6e.js" crossorigin="anonymous"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
-    <div id="top">
-        <img src="{{ url_for('static', filename='img.png') }}" width="200" alt="Logo">
-        <h1>Computer Sc. & Information Technology</h1>
+    <!-- Main wrapper for all content to ensure proper centering -->
+    <div class="content-wrapper">
+
+        <div id="top">
+            <!-- Make sure 'img.png' is in your static folder -->
+            <img src="{{ url_for('static', filename='img.png') }}" alt="Logo">
+            <h1>Identity Based ECC</h1>
+            <h2>Computer Sc. & Information Technology</h2>
+        </div>
+
+        <div class="container">
+            <h2>Encrypt & Decrypt</h2>
+            
+            <form id="encrypt-form">
+                <input type="text" id="identity" placeholder="Enter Identity" required value="abc@xyz.com">
+                <textarea id="data" placeholder="Enter Data to Encrypt"></textarea>
+                <button type="button" onclick="encryptData()">
+                    <i class="fa-solid fa-lock"></i> Encrypt
+                </button>
+                <div class="result" id="encrypted-result"></div>
+                <div class="error" id="encrypt-error"></div>
+            </form>
+
+            <form id="decrypt-form">
+                <textarea id="encrypted_data" placeholder="Enter Encrypted Data"></textarea>
+                <button type="button" onclick="decryptData()">
+                    <i class="fa-solid fa-unlock"></i> Decrypt
+                </button>
+                <div class="result" id="decrypted-result"></div>
+                <div class="error" id="decrypt-error"></div>
+            </form>
+        </div>
+
     </div>
 
-    <h1 style="color: white;">Identity Based ECC</h1>
-
-    <div class="container box glowing">
-        <h2>Encrypt & Decrypt</h2>
-        <form id="encrypt-form">
-            <input type="text" id="identity" placeholder="Enter Identity" required value="abc@xyz.com">
-            <textarea id="data" placeholder="Enter Data to Encrypt"></textarea>
-            <button type="button" onclick="encryptData()"><i class="fa-solid fa-lock"></i></button>
-            <div class="result" id="encrypted-result"></div>
-            <div class="error" id="encrypt-error"></div>
-        </form>
-
-        <form id="decrypt-form">
-            <textarea id="encrypted_data" placeholder="Enter Encrypted Data"></textarea>
-            <button type="button" onclick="decryptData()"><i class="fa-solid fa-unlock"></i></button>
-            <div class="result" id="decrypted-result"></div>
-            <div class="error" id="decrypt-error"></div>
-        </form>
-    </div>
-
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <!-- Link to your JavaScript file -->
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
 </body>
 
 </html>
