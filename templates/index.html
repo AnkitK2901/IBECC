@@ -4,41 +4,323 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Identity Based ECC</title>
+    
+    <!-- Font Awesome for Icons -->
     <script src="https://kit.fontawesome.com/477be79e6e.js" crossorigin="anonymous"></script>
+    
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <title>Encrypt & Decrypt App</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- Global Settings & "Cyberpunk" Color Palette --- */
+        :root {
+            --bg-color: #0d1117;
+            --grid-color: rgba(0, 229, 255, 0.1);
+            --accent-color: #00E5FF;
+            --accent-glow: rgba(0, 229, 255, 0.4);
+            --container-bg: rgba(13, 17, 23, 0.8);
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --border-color: rgba(60, 68, 80, 0.8);
+            --shadow-color: rgba(0, 0, 0, 0.6);
+            --error-color: #f85149;
+        }
+
+        /* --- Animated Grid Background --- */
+        @keyframes moveGrid {
+            from { background-position: 0 0; }
+            to { background-position: 100px 100px; }
+        }
+
+        @keyframes moveGridFine {
+            from { background-position: 0 0; }
+            to { background-position: 400px 0; }
+        }
+
+        /* --- Base & Body Styles --- */
+        body {
+            font-family: 'Roboto Mono', monospace;
+            background-color: var(--bg-color);
+            background-image:
+                linear-gradient(to right, rgba(0, 229, 255, 0.15) 1px, transparent 1px),
+                linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
+                linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
+            background-size:
+                400px 400px, 50px 50px, 50px 50px;
+            animation: moveGridFine 12s linear infinite, moveGrid 15s linear infinite;
+            
+            /* --- Bulletproof Centering Logic --- */
+            display: flex;
+            justify-content: center; /* Horizontally center content */
+            align-items: center;     /* Vertically center content */
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-x: hidden;
+            color: var(--text-primary);
+        }
+
+        /* --- Main Content Wrapper --- */
+        .content-wrapper {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem; /* Adds space between elements */
+        }
+
+        /* --- Top Section Title --- */
+        #top {
+            width: 100%;
+            max-width: 900px;
+            text-align: center;
+        }
+
+        #top img {
+            max-width: 150px;
+            margin-bottom: 1rem;
+        }
+
+        #top h1 {
+            color: #FFFFFF;
+            font-weight: 700;
+            font-size: 2.2rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px var(--accent-glow), 0 0 20px var(--accent-glow);
+            margin: 0;
+        }
+        
+        #top h2 {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            margin-top: 0.5rem;
+        }
+
+        /* --- Main Container --- */
+        .container {
+            width: 100%;
+            max-width: 500px;
+            padding: 30px;
+            background: var(--container-bg);
+            box-shadow: 0 0 40px var(--shadow-color);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            box-sizing: border-box;
+        }
+        
+        .container h2 {
+            color: var(--accent-color);
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin-top: 0;
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+        }
+
+        /* --- Forms & Inputs --- */
+        form {
+            margin-bottom: 2rem;
+        }
+        form:last-child {
+            margin-bottom: 0;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px; /* Spacing between inputs and button */
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-size: 16px;
+            font-family: 'Roboto Mono', monospace;
+            box-sizing: border-box;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        input[type="text"]::placeholder,
+        textarea::placeholder {
+            color: var(--text-secondary);
+        }
+
+        input[type="text"]:focus,
+        textarea:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 8px var(--accent-glow);
+        }
+
+        /* --- Button --- */
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--accent-color);
+            border: none;
+            border-radius: 6px;
+            color: #000;
+            font-size: 18px;
+            font-weight: 700;
+            font-family: 'Roboto Mono', monospace;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            outline: none;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px; /* Space between icon and text */
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px var(--accent-color), 0 0 25px var(--accent-glow);
+        }
+
+        /* --- Result & Error Display --- */
+        .result {
+            margin-top: 15px;
+            padding: 12px;
+            background-color: rgba(0,0,0,0.3);
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--accent-color);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-size: 16px;
+            word-wrap: break-word;
+            line-height: 1.6;
+            min-height: 24px; /* Prevents layout shift */
+        }
+
+        .error {
+            color: var(--error-color);
+            font-weight: 500;
+            margin-top: 10px;
+            min-height: 1em;
+        }
+
+        /* --- Mobile Responsive Fixes --- */
+        @media (max-width: 600px) {
+            body {
+                padding: 25px 15px;
+                align-items: flex-start; /* Align content to top on mobile */
+            }
+
+            #top h1 { font-size: 1.5rem; letter-spacing: 1px; }
+            #top h2 { font-size: 1rem; }
+            .container { padding: 20px; }
+            .container h2 { font-size: 1.2rem; }
+            input[type="text"], textarea, .result { font-size: 14px; }
+            button { font-size: 16px; }
+        }
+
+        /* --- Accessibility: Reduces motion for users who prefer it --- */
+        @media (prefers-reduced-motion: reduce) {
+            body {
+                animation: none;
+            }
+            button:hover {
+                transform: none;
+                box-shadow: none;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <div id="top">
-        <img src="{{ url_for('static', filename='img.png') }}" width="200" alt="Logo">
-        <h1>Computer Sc. & Information Technology</h1>
+    <!-- Main wrapper for all content to ensure proper centering -->
+    <div class="content-wrapper">
+
+        <div id="top">
+            <!-- Using a placeholder for the logo. Replace the src with your image path. -->
+            <img src="https://placehold.co/150x150/0d1117/00E5FF?text=LOGO" alt="Logo">
+            <h1>Identity Based ECC</h1>
+            <h2>Computer Sc. & Information Technology</h2>
+        </div>
+
+        <div class="container">
+            <h2>Encrypt & Decrypt</h2>
+            <form id="encrypt-form">
+                <input type="text" id="identity" placeholder="Enter Identity" required value="abc@xyz.com">
+                <textarea id="data" placeholder="Enter Data to Encrypt"></textarea>
+                <button type="button" onclick="encryptData()">
+                    <i class="fa-solid fa-lock"></i> Encrypt
+                </button>
+                <div class="result" id="encrypted-result"></div>
+                <div class="error" id="encrypt-error"></div>
+            </form>
+
+            <form id="decrypt-form">
+                <textarea id="encrypted_data" placeholder="Enter Encrypted Data"></textarea>
+                <button type="button" onclick="decryptData()">
+                    <i class="fa-solid fa-unlock"></i> Decrypt
+                </button>
+                <div class="result" id="decrypted-result"></div>
+                <div class="error" id="decrypt-error"></div>
+            </form>
+        </div>
+
     </div>
 
-    <h1 style="color: white;">Identity Based ECC</h1>
+    <script>
+        // Your JavaScript functions for encryptData() and decryptData() will go here.
+        // Example:
+        function encryptData() {
+            const identity = document.getElementById('identity').value;
+            const data = document.getElementById('data').value;
+            const encryptedResultDiv = document.getElementById('encrypted-result');
+            const errorDiv = document.getElementById('encrypt-error');
 
-    <div class="container box glowing">
-        <h2>Encrypt & Decrypt</h2>
-        <form id="encrypt-form">
-            <input type="text" id="identity" placeholder="Enter Identity" required value="abc@xyz.com">
-            <textarea id="data" placeholder="Enter Data to Encrypt"></textarea>
-            <button type="button" onclick="encryptData()"><i class="fa-solid fa-lock"></i></button>
-            <div class="result" id="encrypted-result"></div>
-            <div class="error" id="encrypt-error"></div>
-        </form>
+            // Clear previous results
+            encryptedResultDiv.textContent = '';
+            errorDiv.textContent = '';
 
-        <form id="decrypt-form">
-            <textarea id="encrypted_data" placeholder="Enter Encrypted Data"></textarea>
-            <button type="button" onclick="decryptData()"><i class="fa-solid fa-unlock"></i></button>
-            <div class="result" id="decrypted-result"></div>
-            <div class="error" id="decrypt-error"></div>
-        </form>
-    </div>
+            if (!identity || !data) {
+                errorDiv.textContent = 'Identity and Data cannot be empty.';
+                return;
+            }
 
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+            // --- Your Encryption API call would go here ---
+            // For demonstration, we'll just show a placeholder result.
+            encryptedResultDiv.textContent = `Encrypted data for ${identity}: 04ab12...cd34ef`;
+            console.log("Encrypting with:", { identity, data });
+        }
+
+        function decryptData() {
+            const encryptedData = document.getElementById('encrypted_data').value;
+            const decryptedResultDiv = document.getElementById('decrypted-result');
+            const errorDiv = document.getElementById('decrypt-error');
+
+            // Clear previous results
+            decryptedResultDiv.textContent = '';
+            errorDiv.textContent = '';
+
+             if (!encryptedData) {
+                errorDiv.textContent = 'Encrypted Data cannot be empty.';
+                return;
+            }
+            
+            // --- Your Decryption API call would go here ---
+            // For demonstration, we'll just show a placeholder result.
+            decryptedResultDiv.textContent = 'Decrypted: The original secret message.';
+            console.log("Decrypting:", encryptedData);
+        }
+    </script>
 </body>
 
 </html>
