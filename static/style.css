@@ -1,0 +1,135 @@
+* {
+    font-weight: bolder;
+    color: white;
+}
+
+/* Base styles */
+body {
+    font-family: Arial, sans-serif;
+    background: url("bg.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+    flex-direction: column;
+    position: relative;
+}
+
+/* Container styles */
+.container {
+    width: 100%;
+    max-width: 500px;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0px 8px 32px rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-sizing: border-box;
+}
+
+/* Text and heading styles */
+h2 {
+    color: #000;
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Input and button styles */
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    background: rgba(255, 255, 255, 0.25);
+    border: none;
+    border-radius: 8px;
+    color: #333;
+    font-size: 16px;
+    box-sizing: border-box;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+input[type="text"]:focus,
+textarea:focus {
+    background: rgba(255, 255, 255, 0.35);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    background-color: rgba(0, 255, 0, 0.9);
+    border: none;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    outline: none;
+}
+
+button i {
+    color: #000;
+}
+
+/* Result display styles */
+.result {
+    margin-top: 10px;
+    padding: 12px;
+    background-color: rgba(233, 236, 239, 0.5);
+    border-radius: 8px;
+    color: #000;
+    font-size: 16px;
+    word-wrap: break-word;
+}
+
+/* Error display styles */
+.error {
+    color: red;
+    font-weight: bold;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    h2 {
+        font-size: 20px;
+    }
+
+    button {
+        font-size: 16px;
+    }
+
+    input[type="text"],
+    textarea {
+        font-size: 14px;
+    }
+
+    .container {
+        padding: 20px;
+    }
+}
+
+#top {
+    width: 90dvw;
+    height: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#top h1 {
+    color: white;
+}

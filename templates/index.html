@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/477be79e6e.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Encrypt & Decrypt App</title>
+</head>
+
+<body>
+    <div id="top">
+        <img src="{{ url_for('static', filename='img.png') }}" width="200" alt="Logo">
+        <h1>Computer Sc. & Information Technology</h1>
+    </div>
+
+    <h1 style="color: white;">Identity Based ECC</h1>
+
+    <div class="container box glowing">
+        <h2>Encrypt & Decrypt</h2>
+        <form id="encrypt-form">
+            <input type="text" id="identity" placeholder="Enter Identity" required value="abc@xyz.com">
+            <textarea id="data" placeholder="Enter Data to Encrypt"></textarea>
+            <button type="button" onclick="encryptData()"><i class="fa-solid fa-lock"></i></button>
+            <div class="result" id="encrypted-result"></div>
+            <div class="error" id="encrypt-error"></div>
+        </form>
+
+        <form id="decrypt-form">
+            <textarea id="encrypted_data" placeholder="Enter Encrypted Data"></textarea>
+            <button type="button" onclick="decryptData()"><i class="fa-solid fa-unlock"></i></button>
+            <div class="result" id="decrypted-result"></div>
+            <div class="error" id="decrypt-error"></div>
+        </form>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+
+</html>
