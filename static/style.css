@@ -1,135 +1,180 @@
-* {
-    font-weight: bolder;
-    color: white;
+/* --- Global Settings & "Cyberpunk" Color Palette --- */
+:root {
+    --bg-color: #0d1117; /* Very dark blue-charcoal */
+    --grid-color: rgba(0, 229, 255, 0.1); /* Faint cyan grid lines */
+    --accent-color: #00E5FF; /* Electric Cyan */
+    --accent-glow: rgba(0, 229, 255, 0.4);
+    --container-bg: rgba(13, 17, 23, 0.8);
+    --text-primary: #e6edf3;
+    --text-secondary: #8b949e;
+    --border-color: rgba(60, 68, 80, 0.8);
+    --shadow-color: rgba(0, 0, 0, 0.6);
+    --error-color: #f85149;
 }
 
-/* Base styles */
+/* --- Animated Grid Background --- */
+@keyframes moveGrid {
+    from { background-position: 0 0; }
+    to { background-position: 100px 100px; }
+}
+
+@keyframes moveGridFine {
+    from { background-position: 0 0; }
+    to { background-position: 400px 0; }
+}
+
+/* --- Base & Body Styles --- */
 body {
-    font-family: Arial, sans-serif;
-    background: url("https://st2.depositphotos.com/1203257/6428/i/450/depositphotos_64285275-stock-photo-online-secure-connection.jpg");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
+    font-family: 'Roboto Mono', monospace;
+    background-color: var(--bg-color);
+    background-image:
+        linear-gradient(to right, rgba(0, 229, 255, 0.15) 1px, transparent 1px),
+        linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
+    background-size:
+        400px 400px,
+        50px 50px,
+        50px 50px;
+    animation: moveGridFine 12s linear infinite, moveGrid 15s linear infinite;
+    
+    /* --- KEY FIXES START HERE --- */
     display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
-    padding: 20px;
-    box-sizing: border-box;
     flex-direction: column;
-    position: relative;
+    align-items: center; /* Center content horizontally */
+    min-height: 100vh; /* Ensure body takes at least full screen height */
+    margin: 0;
+    padding: 40px 20px; /* Add vertical padding for spacing */
+    box-sizing: border-box; /* Crucial for proper layout */
+    overflow-x: hidden; /* Hide horizontal scroll only, allows vertical scroll */
+    /* --- KEY FIXES END HERE --- */
+
+    color: var(--text-primary);
 }
 
-/* Container styles */
+
+/* --- Top Section Title --- */
+#top {
+    width: 100%; /* Use full width for responsiveness */
+    max-width: 900px; /* Give the title more space */
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+#top h1 {
+    color: #FFFFFF;
+    font-weight: 700;
+    font-size: 2.5rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-shadow: 0 0 10px var(--accent-glow), 0 0 20px var(--accent-glow);
+}
+
+
+/* --- Main Container --- */
 .container {
     width: 100%;
     max-width: 500px;
     padding: 30px;
-    background: rgba(255, 255, 255, 0.15);
-    box-shadow: 0px 8px 32px rgba(31, 38, 135, 0.37);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: var(--container-bg);
+    box-shadow: 0 0 40px var(--shadow-color);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
     box-sizing: border-box;
+    transition: all 0.3s ease;
 }
 
-/* Text and heading styles */
 h2 {
-    color: #000;
+    color: var(--accent-color);
     text-align: center;
     font-size: 24px;
+    font-weight: 500;
+    margin-top: 0;
     margin-bottom: 20px;
+    letter-spacing: 1px;
 }
 
-/* Input and button styles */
+/* --- Inputs & Textarea --- */
 input[type="text"],
 textarea {
     width: 100%;
     padding: 12px;
     margin: 10px 0;
-    background: rgba(255, 255, 255, 0.25);
-    border: none;
-    border-radius: 8px;
-    color: #333;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--text-primary);
     font-size: 16px;
+    font-family: 'Roboto Mono', monospace;
     box-sizing: border-box;
     outline: none;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
+}
+
+input[type="text"]::placeholder,
+textarea::placeholder {
+    color: var(--text-secondary);
 }
 
 input[type="text"]:focus,
 textarea:focus {
-    background: rgba(255, 255, 255, 0.35);
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    border-color: var(--accent-color);
+    box-shadow: 0 0 8px var(--accent-glow);
 }
 
+/* --- Button --- */
 button {
     width: 100%;
     padding: 12px;
     margin-top: 10px;
-    background-color: rgba(0, 255, 0, 0.9);
+    background-color: var(--accent-color);
     border: none;
-    border-radius: 8px;
-    color: #ffffff;
+    border-radius: 6px;
+    color: #000;
     font-size: 18px;
-    font-weight: bold;
+    font-weight: 700;
+    font-family: 'Roboto Mono', monospace;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: all 0.2s ease;
     outline: none;
+    letter-spacing: 1px;
 }
 
-button i {
-    color: #000;
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 15px var(--accent-color), 0 0 25px var(--accent-glow);
 }
 
-/* Result display styles */
+/* --- Result & Error Display --- */
 .result {
-    margin-top: 10px;
+    margin-top: 20px;
     padding: 12px;
-    background-color: rgba(233, 236, 239, 0.5);
-    border-radius: 8px;
-    color: #000;
+    background-color: rgba(0,0,0,0.3);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--accent-color);
+    border-radius: 6px;
+    color: var(--text-primary);
     font-size: 16px;
     word-wrap: break-word;
+    line-height: 1.6;
 }
 
-/* Error display styles */
 .error {
-    color: red;
-    font-weight: bold;
+    color: var(--error-color);
+    font-weight: 500;
 }
 
-/* Responsive adjustments */
+/* --- Responsive Adjustments --- */
 @media (max-width: 600px) {
-    h2 {
-        font-size: 20px;
+    body {
+        padding: 20px 15px; /* Less padding on mobile */
     }
 
-    button {
-        font-size: 16px;
+    #top h1 {
+        font-size: 1.7rem;
     }
-
-    input[type="text"],
-    textarea {
-        font-size: 14px;
-    }
-
     .container {
         padding: 20px;
     }
-}
-
-#top {
-    width: 90dvw;
-    height: 20%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
-
-#top h1 {
-    color: white;
 }
