@@ -1,8 +1,8 @@
 /* --- Global Settings & "Cyberpunk" Color Palette --- */
 :root {
-    --bg-color: #0d1117;
-    --grid-color: rgba(0, 229, 255, 0.1);
-    --accent-color: #00E5FF;
+    --bg-color: #0d1117; /* Very dark blue-charcoal */
+    --grid-color: rgba(0, 229, 255, 0.1); /* Faint cyan grid lines */
+    --accent-color: #00E5FF; /* Electric Cyan */
     --accent-glow: rgba(0, 229, 255, 0.4);
     --container-bg: rgba(13, 17, 23, 0.8);
     --text-primary: #e6edf3;
@@ -32,58 +32,43 @@ body {
         linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
         linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
     background-size:
-        400px 400px, 50px 50px, 50px 50px;
+        400px 400px,
+        50px 50px,
+        50px 50px;
     animation: moveGridFine 12s linear infinite, moveGrid 15s linear infinite;
     
-    /* --- Centering Logic for the Wrapper --- */
+    /* --- KEY FIXES START HERE --- */
     display: flex;
-    justify-content: center; /* Horizontally center */
-    align-items: center;     /* Vertically center */
-    min-height: 100vh;
+    flex-direction: column;
+    align-items: center; /* Center content horizontally */
+    min-height: 100vh; /* Ensure body takes at least full screen height */
     margin: 0;
-    padding: 20px;
-    box-sizing: border-box;
-    overflow-x: hidden;
+    padding: 40px 20px; /* Add vertical padding for spacing */
+    box-sizing: border-box; /* Crucial for proper layout */
+    overflow-x: hidden; /* Hide horizontal scroll only, allows vertical scroll */
+    /* --- KEY FIXES END HERE --- */
+
     color: var(--text-primary);
 }
 
-/* --- Main Content Wrapper --- */
-.content-wrapper {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-}
 
 /* --- Top Section Title --- */
 #top {
-    width: 100%;
-    max-width: 900px;
+    width: 100%; /* Use full width for responsiveness */
+    max-width: 900px; /* Give the title more space */
     text-align: center;
-}
-
-#top img {
-    max-width: 150px;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
 }
 
 #top h1 {
     color: #FFFFFF;
     font-weight: 700;
-    font-size: 2.2rem;
+    font-size: 2.5rem;
     letter-spacing: 2px;
     text-transform: uppercase;
     text-shadow: 0 0 10px var(--accent-glow), 0 0 20px var(--accent-glow);
-    margin: 0;
 }
-        
-#top h2 {
-    font-size: 1.1rem;
-    color: var(--text-secondary);
-    font-weight: 400;
-    margin-top: 0.5rem;
-}
+
 
 /* --- Main Container --- */
 .container {
@@ -97,31 +82,25 @@ body {
     border-radius: 8px;
     border: 1px solid var(--border-color);
     box-sizing: border-box;
+    transition: all 0.3s ease;
 }
-        
-.container h2 {
+
+h2 {
     color: var(--accent-color);
     text-align: center;
-    font-size: 1.5rem;
+    font-size: 24px;
     font-weight: 500;
     margin-top: 0;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     letter-spacing: 1px;
 }
 
-/* --- Forms & Inputs --- */
-form {
-    margin-bottom: 2rem;
-}
-form:last-child {
-    margin-bottom: 0;
-}
-
+/* --- Inputs & Textarea --- */
 input[type="text"],
 textarea {
     width: 100%;
     padding: 12px;
-    margin-bottom: 15px;
+    margin: 10px 0;
     background: rgba(0,0,0,0.3);
     border: 1px solid var(--border-color);
     border-radius: 6px;
@@ -131,11 +110,6 @@ textarea {
     box-sizing: border-box;
     outline: none;
     transition: all 0.2s ease;
-}
-
-textarea {
-    min-height: 80px;
-    resize: vertical;
 }
 
 input[type="text"]::placeholder,
@@ -153,6 +127,7 @@ textarea:focus {
 button {
     width: 100%;
     padding: 12px;
+    margin-top: 10px;
     background-color: var(--accent-color);
     border: none;
     border-radius: 6px;
@@ -164,10 +139,6 @@ button {
     transition: all 0.2s ease;
     outline: none;
     letter-spacing: 1px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
 }
 
 button:hover {
@@ -177,7 +148,7 @@ button:hover {
 
 /* --- Result & Error Display --- */
 .result {
-    margin-top: 15px;
+    margin-top: 20px;
     padding: 12px;
     background-color: rgba(0,0,0,0.3);
     border: 1px solid var(--border-color);
@@ -187,33 +158,23 @@ button:hover {
     font-size: 16px;
     word-wrap: break-word;
     line-height: 1.6;
-    min-height: 24px;
 }
 
 .error {
     color: var(--error-color);
     font-weight: 500;
-    margin-top: 10px;
-    min-height: 1em;
 }
 
-/* --- Mobile Responsive Fixes --- */
+/* --- Responsive Adjustments --- */
 @media (max-width: 600px) {
     body {
-        padding: 25px 15px;
-        align-items: flex-start;
+        padding: 20px 15px; /* Less padding on mobile */
     }
 
-    #top h1 { font-size: 1.5rem; letter-spacing: 1px; }
-    #top h2 { font-size: 1rem; }
-    .container { padding: 20px; }
-    .container h2 { font-size: 1.2rem; }
-    input[type="text"], textarea, .result { font-size: 14px; }
-    button { font-size: 16px; }
-}
-
-/* --- Accessibility: Reduces motion --- */
-@media (prefers-reduced-motion: reduce) {
-    body { animation: none; }
-    button:hover { transform: none; box-shadow: none; }
+    #top h1 {
+        font-size: 1.7rem;
+    }
+    .container {
+        padding: 20px;
+    }
 }
