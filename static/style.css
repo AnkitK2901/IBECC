@@ -12,22 +12,13 @@
     --error-color: #f85149;
 }
 
-
 /* --- Animated Grid Background --- */
 @keyframes moveGrid {
     from { background-position: 0 0; }
     to { background-position: 100px 100px; }
 }
-@-webkit-keyframes moveGrid {
-    from { background-position: 0 0; }
-    to { background-position: 100px 100px; }
-}
 
 @keyframes moveGridFine {
-    from { background-position: 0 0; }
-    to { background-position: 400px 0; }
-}
-@-webkit-keyframes moveGridFine {
     from { background-position: 0 0; }
     to { background-position: 400px 0; }
 }
@@ -41,43 +32,58 @@ body {
         linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
         linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
     background-size:
-        400px 400px,
-        50px 50px,
-        50px 50px;
+        400px 400px, 50px 50px, 50px 50px;
     animation: moveGridFine 12s linear infinite, moveGrid 15s linear infinite;
-    -webkit-animation: moveGridFine 12s linear infinite, moveGrid 15s linear infinite;
     
-    /* Removed flexbox for universal compatibility */
+    /* --- Centering Logic for the Wrapper --- */
+    display: flex;
+    justify-content: center; /* Horizontally center */
+    align-items: center;     /* Vertically center */
     min-height: 100vh;
     margin: 0;
-    padding: 40px 20px;
+    padding: 20px;
     box-sizing: border-box;
     overflow-x: hidden;
     color: var(--text-primary);
 }
 
+/* --- Main Content Wrapper --- */
+.content-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
 
 /* --- Top Section Title --- */
 #top {
     width: 100%;
     max-width: 900px;
     text-align: center;
-    margin-bottom: 2rem;
-    
-    /* Universal centering fix */
-    margin-left: auto;
-    margin-right: auto;
+}
+
+#top img {
+    max-width: 150px;
+    margin-bottom: 1rem;
 }
 
 #top h1 {
     color: #FFFFFF;
     font-weight: 700;
-    font-size: 2.5rem;
+    font-size: 2.2rem;
     letter-spacing: 2px;
     text-transform: uppercase;
     text-shadow: 0 0 10px var(--accent-glow), 0 0 20px var(--accent-glow);
+    margin: 0;
 }
-
+        
+#top h2 {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    font-weight: 400;
+    margin-top: 0.5rem;
+}
 
 /* --- Main Container --- */
 .container {
@@ -86,48 +92,50 @@ body {
     padding: 30px;
     background: var(--container-bg);
     box-shadow: 0 0 40px var(--shadow-color);
-    -webkit-box-shadow: 0 0 40px var(--shadow-color);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     border-radius: 8px;
-    -webkit-border-radius: 8px;
     border: 1px solid var(--border-color);
     box-sizing: border-box;
-    transition: all 0.3s ease;
-    -webkit-transition: all 0.3s ease;
-    
-    /* Universal centering fix */
-    margin-left: auto;
-    margin-right: auto;
 }
-
-h2 {
+        
+.container h2 {
     color: var(--accent-color);
     text-align: center;
-    font-size: 24px;
+    font-size: 1.5rem;
     font-weight: 500;
     margin-top: 0;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     letter-spacing: 1px;
 }
 
-/* --- Inputs & Textarea --- */
+/* --- Forms & Inputs --- */
+form {
+    margin-bottom: 2rem;
+}
+form:last-child {
+    margin-bottom: 0;
+}
+
 input[type="text"],
 textarea {
     width: 100%;
     padding: 12px;
-    margin: 10px 0;
+    margin-bottom: 15px;
     background: rgba(0,0,0,0.3);
     border: 1px solid var(--border-color);
     border-radius: 6px;
-    -webkit-border-radius: 6px;
     color: var(--text-primary);
     font-size: 16px;
     font-family: 'Roboto Mono', monospace;
     box-sizing: border-box;
     outline: none;
     transition: all 0.2s ease;
-    -webkit-transition: all 0.2s ease;
+}
+
+textarea {
+    min-height: 80px;
+    resize: vertical;
 }
 
 input[type="text"]::placeholder,
@@ -139,104 +147,73 @@ input[type="text"]:focus,
 textarea:focus {
     border-color: var(--accent-color);
     box-shadow: 0 0 8px var(--accent-glow);
-    -webkit-box-shadow: 0 0 8px var(--accent-glow);
 }
 
 /* --- Button --- */
 button {
     width: 100%;
     padding: 12px;
-    margin-top: 10px;
     background-color: var(--accent-color);
     border: none;
     border-radius: 6px;
-    -webkit-border-radius: 6px;
     color: #000;
     font-size: 18px;
     font-weight: 700;
     font-family: 'Roboto Mono', monospace;
     cursor: pointer;
     transition: all 0.2s ease;
-    -webkit-transition: all 0.2s ease;
     outline: none;
     letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
 }
 
 button:hover {
     transform: translateY(-2px);
-    -webkit-transform: translateY(-2px);
     box-shadow: 0 0 15px var(--accent-color), 0 0 25px var(--accent-glow);
-    -webkit-box-shadow: 0 0 15px var(--accent-color), 0 0 25px var(--accent-glow);
 }
 
 /* --- Result & Error Display --- */
 .result {
-    margin-top: 20px;
+    margin-top: 15px;
     padding: 12px;
     background-color: rgba(0,0,0,0.3);
     border: 1px solid var(--border-color);
     border-left: 4px solid var(--accent-color);
     border-radius: 6px;
-    -webkit-border-radius: 6px;
     color: var(--text-primary);
     font-size: 16px;
     word-wrap: break-word;
     line-height: 1.6;
+    min-height: 24px;
 }
 
 .error {
     color: var(--error-color);
     font-weight: 500;
+    margin-top: 10px;
+    min-height: 1em;
 }
 
-/*
-=========================================
---- CAREFUL MOBILE RESPONSIVE FIXES ---
-=========================================
-*/
+/* --- Mobile Responsive Fixes --- */
 @media (max-width: 600px) {
     body {
         padding: 25px 15px;
+        align-items: flex-start;
     }
 
-    #top {
-        margin-bottom: 1.5rem;
-    }
-
-    #top h1 {
-        font-size: 1.8rem;
-        letter-spacing: 1px;
-    }
-    
-    .container {
-        padding: 20px;
-    }
-
-    h2 {
-        font-size: 20px;
-    }
-
-    input[type="text"],
-    textarea,
-    .result {
-        font-size: 14px;
-    }
-
-    button {
-        font-size: 16px;
-    }
+    #top h1 { font-size: 1.5rem; letter-spacing: 1px; }
+    #top h2 { font-size: 1rem; }
+    .container { padding: 20px; }
+    .container h2 { font-size: 1.2rem; }
+    input[type="text"], textarea, .result { font-size: 14px; }
+    button { font-size: 16px; }
 }
 
-/* --- Accessibility: Reduces motion for users who prefer it --- */
+/* --- Accessibility: Reduces motion --- */
 @media (prefers-reduced-motion: reduce) {
-    body {
-        animation: none;
-        -webkit-animation: none;
-    }
-    button:hover {
-        transform: none;
-        -webkit-transform: none;
-        box-shadow: none;
-        -webkit-box-shadow: none;
-    }
+    body { animation: none; }
+    button:hover { transform: none; box-shadow: none; }
 }
