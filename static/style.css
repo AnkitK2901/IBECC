@@ -12,6 +12,7 @@
     --error-color: #f85149;
 }
 
+
 /* --- Animated Grid Background --- */
 @keyframes moveGrid {
     from { background-position: 0 0; }
